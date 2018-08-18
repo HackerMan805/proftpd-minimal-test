@@ -32,7 +32,9 @@ RUN apt-get -y update && \
 		zlib1g \
 		openssl \
 		openbsd-inetd \
-		libssl-dev
+		libssl-dev \
+		lsof \
+		net-tools
 
 # Clone ProFTPd
 RUN git clone https://github.com/proftpd/proftpd.git \
@@ -71,5 +73,8 @@ ENV PROFTPD_DEBUG_LEVEL="10" \
 	PROFTPD_TIMEOUT_IDLE="600" \
 	PROFTPD_MAX_INSTANCES="300"
 
+COPY script/*.sh /etc/proftpd/
+RUN chmod +x /etc/proftpd/start.sh
+
 # Start FTP service
-CMD /etc/proftpd/proftpd -n -c /etc/proftpd/proftpd.conf
+CMD /etc/proftpd/start.sh
