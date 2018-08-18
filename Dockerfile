@@ -40,10 +40,9 @@ RUN git clone https://github.com/proftpd/proftpd.git \
 	&& git checkout master
 
 # Configure and build ProFTPd with the desired modules
-RUN cd proftpd && ./configure --enable-openssl --enable-ctrls \
+RUN cd proftpd && ./configure --enable-ctrls \
     --with-includes=/usr/include/libxml2 \
 	--with-libraries=/usr/lib \
-	--with-modules=mod_tls \
 	&& make \
 	&& make install
 
