@@ -35,23 +35,12 @@ RUN apt-get -y update && \
 		libssl-dev \
 		default-libmysqlclient-dev
 
-# Clone ProFTPd version 3.6
+# Clone ProFTPd
 RUN git clone https://github.com/proftpd/proftpd.git \
 	&& cd proftpd \
 	&& git checkout master
 
 # Configure and build ProFTPd with the desired modules
-# Modules used:
-#	https://htmlpreview.github.io/?https://github.com/Castaglia/proftpd-mod_vroot/blob/master/mod_vroot.html
-#	http://www.castaglia.org/proftpd/modules/mod_case.html
-#	http://www.proftpd.org/docs/contrib/mod_unique_id.html
-#	http://www.proftpd.org/docs/contrib/mod_ban.html
-#	http://www.proftpd.org/docs/contrib/mod_tls.html
-#	http://www.proftpd.org/docs/contrib/mod_sftp.html
-#	http://www.proftpd.org/docs/contrib/mod_sql.html
-#	http://www.proftpd.org/docs/contrib/mod_sql_passwd.html
-#	http://www.proftpd.org/docs/contrib/mod_sftp_sql.html
-#	https://htmlpreview.github.io/?https://github.com/Castaglia/proftpd-mod_aws/blob/master/mod_aws.html
 RUN cd proftpd && ./configure --enable-openssl --enable-ctrls \
     --with-includes=/usr/include/libxml2 \
 	--with-libraries=/usr/lib \
@@ -76,7 +65,7 @@ RUN setfacl -Rbdm g:ftpgroup:rw,u:ftpuser:rw /var/ftp/
 EXPOSE 20 21 23 30000-30050
 
 # Environment variable defaults
-ENV PROFTPD_DEBUG_LEVEL="1" \
+ENV PROFTPD_DEBUG_LEVEL="10" \
 	PROFTPD_REQUIRE_VALID_SHELL="off" \
 	PROFTPD_TIMEOUT_NO_TRANSFER="600" \
 	PROFTPD_TIMEOUT_STALLED="600" \

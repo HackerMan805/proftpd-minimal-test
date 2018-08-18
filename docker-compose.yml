@@ -9,7 +9,6 @@ services:
     ports:
       - "20:20"
       - "21:21"
-      - "23:23"
       - "30000-30050:30000-30050"
     volumes:
       - ftp-data:/var/ftp
@@ -17,7 +16,3 @@ services:
 volumes:
   ftp-data:
   cert-data:
-networks:
-  default:
-    external:
-      name: edlio
