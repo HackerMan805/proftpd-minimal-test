@@ -1,0 +1,1 @@
+# ProFTPD Minimum Viable Test

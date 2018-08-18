@@ -1,0 +1,23 @@
+version: "3"
+services:
+  ftp:
+    build: .
+    container_name: ftp-reproduction
+    image: ftp-reproduction
+    env_file:
+      - ftp.env
+    ports:
+      - "20:20"
+      - "21:21"
+      - "23:23"
+      - "30000-30050:30000-30050"
+    volumes:
+      - ftp-data:/var/ftp
+      - cert-data:/var/cert
+volumes:
+  ftp-data:
+  cert-data:
+networks:
+  default:
+    external:
+      name: edlio
