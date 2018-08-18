@@ -9,8 +9,5 @@ services:
       - "21:21"
       - "30000-30050:30000-30050"
     volumes:
-      - ftp-data:/var/ftp
-      - cert-data:/var/cert
-volumes:
-  ftp-data:
-  cert-data:
+      - ./volume/ftp:/var/ftp
+      - ./volume/cert:/var/cert
