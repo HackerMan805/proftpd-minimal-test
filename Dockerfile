@@ -32,8 +32,7 @@ RUN apt-get -y update && \
 		zlib1g \
 		openssl \
 		openbsd-inetd \
-		libssl-dev \
-		default-libmysqlclient-dev
+		libssl-dev
 
 # Clone ProFTPd
 RUN git clone https://github.com/proftpd/proftpd.git \
@@ -44,7 +43,7 @@ RUN git clone https://github.com/proftpd/proftpd.git \
 RUN cd proftpd && ./configure --enable-openssl --enable-ctrls \
     --with-includes=/usr/include/libxml2 \
 	--with-libraries=/usr/lib \
-	--with-modules=mod_tls:mod_sql:mod_sql_mysql \
+	--with-modules=mod_tls \
 	&& make \
 	&& make install
 
@@ -53,7 +52,7 @@ RUN groupadd -g 2100 ftpgroup
 RUN useradd -g ftpgroup -d /home/ftpusers -s /dev/null -u 2100 ftpuser
 
 # Add log directory and files
-RUN mkdir -p /var/log/proftpd && touch /var/log/proftpd/sql.log
+RUN mkdir -p /var/log/proftpd
 
 # Copy in the proftpd.conf files
 COPY config/*.conf /etc/proftpd/
@@ -62,7 +61,7 @@ COPY config/*.conf /etc/proftpd/
 VOLUME /var/ftp /var/cert
 RUN setfacl -Rbdm g:ftpgroup:rw,u:ftpuser:rw /var/ftp/
 
-EXPOSE 20 21 23 30000-30050
+EXPOSE 20 21 30000-30050
 
 # Environment variable defaults
 ENV PROFTPD_DEBUG_LEVEL="10" \

@@ -4,8 +4,6 @@ services:
     build: .
     container_name: ftp-reproduction
     image: ftp-reproduction
-    env_file:
-      - ftp.env
     ports:
       - "20:20"
       - "21:21"
